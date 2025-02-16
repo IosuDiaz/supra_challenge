@@ -2,7 +2,3 @@
 @tailwind components;
 @tailwind utilities;
 
-
-nav {
-  z-index: 50;
-}

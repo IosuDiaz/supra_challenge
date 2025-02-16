@@ -17,11 +17,11 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_15_150710) do
   create_table "influencers", force: :cascade do |t|
     t.string "external_id"
     t.string "username", null: false
-    t.string "fullname"
+    t.string "fullname", null: false
     t.boolean "verified", default: false
     t.integer "platform", null: false
     t.bigint "followers", null: false
-    t.string "picture"
+    t.string "picture", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["external_id", "platform"], name: "index_influencers_on_external_id_and_platform", unique: true, where: "(external_id IS NOT NULL)"
