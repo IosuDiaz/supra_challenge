@@ -12,4 +12,5 @@ class CreateInfluencers < ActiveRecord::Migration[7.2]
   end
 
   add_index :influencers, [ :external_id, :platform ], unique: true, where: "external_id IS NOT NULL"
+  add_index :influencers, [ :username, :platform ], unique: true
 end

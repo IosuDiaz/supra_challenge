@@ -25,5 +25,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_15_150710) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["external_id", "platform"], name: "index_influencers_on_external_id_and_platform", unique: true, where: "(external_id IS NOT NULL)"
+    t.index ["username", "platform"], name: "index_influencers_on_username_and_platform", unique: true
   end
 end
