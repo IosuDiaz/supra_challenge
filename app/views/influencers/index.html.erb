@@ -1,5 +1,10 @@
 <div class="container mx-auto p-6">
-  <h1 class="text-4xl font-bold text-gray-800 mb-6">Influencers Destacados</h1>
+  <h1 class="text-4xl font-bold text-gray-800 mb-6">
+    Influencers Destacados
+    <button type="button" data-action="click->search#syncInfluencers" data-controller="search" class="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600">
+      Refresh
+    </button>
+  </h1>
 
   <!-- Barra de búsqueda y filtro de plataforma + Botón para agregar -->
   <div class="relative mb-6 flex gap-4 items-center">

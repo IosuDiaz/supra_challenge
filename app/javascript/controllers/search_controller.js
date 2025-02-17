@@ -27,4 +27,24 @@ export default class extends Controller {
   filterSelect() {
     this.element.requestSubmit()
   }
+
+  async syncInfluencers() {
+    try {
+      const response = await fetch('/sync_influencers', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {        
+        alert('Job encolado exitosamente');
+      } else {
+        alert('Error en la solicitud de sincronización');
+      }
+    } catch (error) {
+      console.error('Error al sincronizar influencers:', error);
+      alert('Hubo un problema al intentar sincronizar los influencers');
+    }
+  }
 }

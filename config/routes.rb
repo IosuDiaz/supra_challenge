@@ -14,4 +14,6 @@ Rails.application.routes.draw do
   root "influencers#index"
 
   resources :influencers, only: [ :index, :create ]
+
+  get "sync_influencers", to: "influencers#sync"
 end
