@@ -17,7 +17,7 @@ class InfluencerApiClient
   private
 
   def get_influencers
-    self.class.get("/#{@platform}/users", headers: { "Authorization" => "Bearer #{Rails.application.credentials.modash_api_key}" })
+    self.class.get("/#{@platform}/users?limit=100", headers: { "Authorization" => "Bearer #{Rails.application.credentials.modash_api_key}" })
   end
 
   def parse_response(response)

@@ -1,22 +1,85 @@
 <div class="container mx-auto p-6">
   <h1 class="text-4xl font-bold text-gray-800 mb-6">Influencers Destacados</h1>
 
-  <!-- Barra de búsqueda y filtro de plataforma -->
-  <div class="relative mb-6">
+  <!-- Barra de búsqueda y filtro de plataforma + Botón para agregar -->
+  <div class="relative mb-6 flex gap-4 items-center">
     <%= form_with url: influencers_path, method: :get, data: { controller: "search", turbo_frame: "influencers_list" }, class: "w-full flex gap-4" do |f| %>
       <!-- Input de búsqueda -->
       <%= f.search_field :query, 
             placeholder: "🔍 Buscar influencer...", 
             class: "w-full px-4 py-3 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm",
             data: { action: "input->search#filter", search_target: "input" } %>
-
       <!-- Filtro de plataforma -->
       <%= f.select :platform, 
-            options_for_select([["Todas", ""], "Instagram", "TikTok", "YouTube"], params[:platform] || "Todas"), 
+            options_for_select([["Todas", ""], ["Instagram", "instagram"], ["TikTok", "tiktok"], ["YouTube", "youtube"]], params[:platform] || "Todas"), 
             {}, 
             class: "w-44 px-4 py-3 border rounded-full bg-white shadow-sm",
             data: { action: "change->search#filterSelect", search_target: "platform" } %>
     <% end %>
+    
+    <!-- Botón para desplegar/ocultar el formulario -->
+    <button type="button" data-action="click->search#toggleForm" data-controller="search" class="bg-black-500 text-white px-4 py-3 rounded-full hover:bg-black-600 shadow-md">
+      Agregar Influencer
+    </button>
+  </div>
+
+  <div id="influencer-form" hidden class="mb-6" data-controller="form-handler">
+    <div class="bg-white p-6 rounded-2xl shadow-xl max-w-lg mx-auto">
+      <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">Agregar Influencer</h2>
+      
+      <%= form_with url: influencers_path, method: :post, remote: true, data: { turbo_frame: "influencers_list", action: "turbo:submit-end->form-handler#reset" } do |f| %>
+        <!-- Fila con Username y Verificado -->
+        <div class="mb-4 flex items-center gap-4">
+          <!-- Campo Username + Label Verificado arriba -->
+          <div class="flex-1">
+            <div class="flex justify-between">
+              <%= f.label :username, "Username", class: "text-gray-700 font-medium mb-1" %>
+              <%= f.label :verified, "Verificado", class: "text-gray-700 font-medium mb-1 mr-8" %>
+            </div>
+            <div class="flex items-center gap-5">
+              <%= f.text_field :username, required: true, class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow shadow-sm" %>
+              <%= f.check_box :verified, class: "h-5 w-5 text-blue-500 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 p-2" %>
+            </div>
+          </div>
+        </div>
+
+        <!-- Campo Nombre Completo -->
+        <div class="mb-4">
+          <%= f.label :fullname, "Nombre Completo", class: "block text-gray-700 font-medium mb-1" %>
+          <%= f.text_field :fullname, required: true, class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow shadow-sm" %>
+        </div>
+
+        <div class="mb-4">
+          <%= f.label :picture, "Imagen (URL)", class: "block text-gray-700 font-medium mb-1" %>
+          <%= f.text_field :picture, required: true, 
+                placeholder: "Ejemplo: https://www.example.com/imagen.jpg", 
+                class: "w-full px-4 py-3 border rounded-lg bg-white shadow-sm text-gray-700 placeholder-gray-400" %>
+        </div>
+
+        <!-- Campo Plataforma -->
+        <div class="mb-4">
+          <%= f.label :platform, "Plataforma", class: "block text-gray-700 font-medium mb-1" %>
+          <%= f.select :platform, options_for_select(Influencer.platforms.keys.map { |platform| [platform.humanize, platform] }, params[:platform]), {}, 
+                class: "w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow shadow-sm" %>
+        </div>
+
+        <!-- Campo Seguidores -->
+        <div class="mb-4">
+          <%= f.label :followers, "Seguidores", class: "block text-gray-700 font-medium mb-1" %>
+          <%= f.number_field :followers, required: true, class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow shadow-sm" %>
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="flex justify-between items-center mt-6">
+          <button type="button"
+                  data-action="click->search#toggleForm"
+                  class="bg-gray-200 text-gray-700 px-5 py-2.5 rounded-lg hover:bg-gray-300 transition-all">
+            Cancelar
+          </button>
+          <%= f.submit "Guardar", class: "bg-blue-500 text-white px-5 py-2.5 rounded-lg hover:bg-blue-600 transition-all shadow-md" %>
+        </div>
+      <% end %>
+    </div>
   </div>
 
   <!-- Turbo Frame para actualizar solo la lista -->

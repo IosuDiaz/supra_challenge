@@ -23,5 +23,9 @@ module SupraChallenge
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    config.after_initialize do
+      InfluencerSyncService.sync_all
+    end
   end
 end

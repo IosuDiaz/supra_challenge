@@ -1,5 +1,5 @@
 class InfluencerSyncService
-  PLATFORMS = %w[instagram tiktok youtube].freeze
+  PLATFORMS = Influencer.platforms.keys.freeze
 
   def self.sync_all
     PLATFORMS.each do |platform|

@@ -1,0 +1,6 @@
+<% if flash.any? %>
+  <div class="fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg" data-controller="flash">
+    <%= flash[:alert] if flash[:alert] %>
+    <%= flash[:notice] if flash[:notice] %>
+  </div>
+<% end %>

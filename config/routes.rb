@@ -13,5 +13,5 @@ Rails.application.routes.draw do
   # root "posts#index"
   root "influencers#index"
 
-  resources :influencers, only: [ :index ]
+  resources :influencers, only: [ :index, :create ]
 end
