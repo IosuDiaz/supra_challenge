@@ -44,6 +44,8 @@ gem "solargraph"
 
 gem "sidekiq"
 
+gem "whenever", require: false
+
 
 group :development, :test do
   gem "byebug"
