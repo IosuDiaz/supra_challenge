@@ -1,10 +1,25 @@
 import { Controller } from "@hotwired/stimulus"
+import { createConsumer } from "@rails/actioncable";
+
 
 export default class extends Controller {
   static targets = ["input", "platform"]
 
   connect() {
     this.timeout = null
+    this.subscription = createConsumer().subscriptions.create("InfluencersChannel", {
+      connected() {
+      },
+      
+      disconnected() {
+      },
+      
+      received(data) {
+        if (data.turbo_stream) {
+          Turbo.renderStreamMessage(data.turbo_stream);
+        }
+      }
+    });
   }
 
   toggleForm() {

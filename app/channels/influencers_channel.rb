@@ -4,6 +4,5 @@ class InfluencersChannel < ApplicationCable::Channel
   end
 
   def unsubscribed
-    # Cleanup when the user unsubscribes
   end
 end

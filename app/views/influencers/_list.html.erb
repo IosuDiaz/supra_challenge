@@ -1,13 +1,10 @@
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
   <% influencers.each do |influencer| %>
     <div class="bg-white shadow-lg rounded-2xl p-4 flex items-center space-x-3 hover:shadow-2xl transition-all">
-      
-      <!-- Foto -->
       <img src="<%= influencer.picture %>" 
            alt="Foto de <%= influencer.username %>"
            class="w-24 h-24 border shadow-md">
 
-      <!-- Información del influencer -->
       <div class="flex-1">
         <div class="flex items-center space-x-2 mb-3">
           <%= platform_logo(influencer.platform) %>
@@ -26,7 +23,6 @@
           <span class="text-gray-700 font-medium"><%= number_with_delimiter(influencer.followers) %> seguidores</span>
         </div>
       </div>
-
     </div>
   <% end %>
 </div>

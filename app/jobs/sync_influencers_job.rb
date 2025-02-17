@@ -5,26 +5,21 @@ class SyncInfluencersJob
   def perform(platform)
     InfluencerSyncService.new(platform).sync
 
-    html = ApplicationController.renderer.render(
+    influencers = Influencer.all
+
+    rendered_partial = ApplicationController.render(
       partial: "influencers/list",
-      locals: { influencers: Influencer.all }
+      locals: { influencers: influencers }
     )
 
-    turbo_stream = ApplicationController.renderer.render(
-      turbo_stream: turbo_stream_action(html)
-    )
+    turbo_stream_message = <<~HTML
+      <turbo-stream action="replace" target="influencers_list">
+        <template>
+          #{rendered_partial}
+        </template>
+      </turbo-stream>
+    HTML
 
-    ActionCable.server.broadcast("influencers", turbo_stream)
-  end
-
-  private
-
-  def turbo_stream_action(html)
-    Turbo::StreamsChannel.broadcast_replace_to(
-      "influencers",
-      target: "influencers_list",
-      partial: "influencers/list",
-      locals: { influencers: Influencer.all }
-    )
+    ActionCable.server.broadcast("influencers:influencers", { turbo_stream: turbo_stream_message })
   end
 end

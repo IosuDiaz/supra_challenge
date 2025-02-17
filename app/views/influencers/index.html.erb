@@ -6,15 +6,13 @@
     </button>
   </h1>
 
-  <!-- Barra de búsqueda y filtro de plataforma + Botón para agregar -->
   <div class="relative mb-6 flex gap-4 items-center">
     <%= form_with url: influencers_path, method: :get, data: { controller: "search", turbo_frame: "influencers_list" }, class: "w-full flex gap-4" do |f| %>
-      <!-- Input de búsqueda -->
       <%= f.search_field :query, 
             placeholder: "🔍 Buscar influencer...", 
             class: "w-full px-4 py-3 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm",
             data: { action: "input->search#filter", search_target: "input" } %>
-      <!-- Filtro de plataforma -->
+
       <%= f.select :platform, 
             options_for_select([["Todas", ""], ["Instagram", "instagram"], ["TikTok", "tiktok"], ["YouTube", "youtube"]], params[:platform] || "Todas"), 
             {}, 
@@ -22,7 +20,6 @@
             data: { action: "change->search#filterSelect", search_target: "platform" } %>
     <% end %>
     
-    <!-- Botón para desplegar/ocultar el formulario -->
     <button type="button" data-action="click->search#toggleForm" data-controller="search" class="bg-black-500 text-white px-4 py-3 rounded-full hover:bg-black-600 shadow-md">
       Agregar Influencer
     </button>
@@ -33,9 +30,7 @@
       <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">Agregar Influencer</h2>
       
       <%= form_with url: influencers_path, method: :post, remote: true, data: { turbo_frame: "influencers_list", action: "turbo:submit-end->form-handler#reset" } do |f| %>
-        <!-- Fila con Username y Verificado -->
         <div class="mb-4 flex items-center gap-4">
-          <!-- Campo Username + Label Verificado arriba -->
           <div class="flex-1">
             <div class="flex justify-between">
               <%= f.label :username, "Username", class: "text-gray-700 font-medium mb-1" %>
@@ -48,7 +43,6 @@
           </div>
         </div>
 
-        <!-- Campo Nombre Completo -->
         <div class="mb-4">
           <%= f.label :fullname, "Nombre Completo", class: "block text-gray-700 font-medium mb-1" %>
           <%= f.text_field :fullname, required: true, class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow shadow-sm" %>
@@ -61,20 +55,17 @@
                 class: "w-full px-4 py-3 border rounded-lg bg-white shadow-sm text-gray-700 placeholder-gray-400" %>
         </div>
 
-        <!-- Campo Plataforma -->
         <div class="mb-4">
           <%= f.label :platform, "Plataforma", class: "block text-gray-700 font-medium mb-1" %>
           <%= f.select :platform, options_for_select(Influencer.platforms.keys.map { |platform| [platform.humanize, platform] }, params[:platform]), {}, 
                 class: "w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow shadow-sm" %>
         </div>
 
-        <!-- Campo Seguidores -->
         <div class="mb-4">
           <%= f.label :followers, "Seguidores", class: "block text-gray-700 font-medium mb-1" %>
           <%= f.number_field :followers, required: true, class: "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow shadow-sm" %>
         </div>
 
-        <!-- Botones de acción -->
         <div class="flex justify-between items-center mt-6">
           <button type="button"
                   data-action="click->search#toggleForm"
@@ -87,7 +78,6 @@
     </div>
   </div>
 
-  <!-- Turbo Frame para actualizar solo la lista -->
   <turbo-frame id="influencers_list">
     <%= render "influencers/list", influencers: @influencers %>
   </turbo-frame>
